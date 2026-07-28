@@ -35,7 +35,7 @@
 
 ### 首页与技师地图
 
-![长沙附近技师地图](assets/screenshots/home-map.png)
+![长沙附近技师地图](assets/screenshots/home-map.jpg)
 
 ### 我的订单
 
