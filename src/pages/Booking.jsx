@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { technicians } from '../data/technicians'
+import orderService from '../services/orderService'
 
 const times = ['10:00', '12:00', '14:00', '16:00', '18:00', '20:00']
 const formatDate = (offset) => { const d = new Date(); d.setDate(d.getDate() + offset); return { value: d.toISOString().slice(0, 10), label: offset === 0 ? '今天' : offset === 1 ? '明天' : '后天', weekday: ['日', '一', '二', '三', '四', '五', '六'][d.getDay()] } }
@@ -15,9 +16,8 @@ export default function Booking() {
   const [date, setDate] = useState(dates[0])
   const [time, setTime] = useState(times[2])
   const submit = () => {
-    const order = { orderId: `LH${Date.now().toString().slice(-8)}`, technician: technician.name, technicianId: technician.id, service: service.name, date: date.value, time, price: service.price, status: 0, createdAt: new Date().toISOString() }
-    localStorage.setItem('luohan-order', JSON.stringify(order))
-    navigate('/order-status', { state: { order } })
+    const order = orderService.createOrder({ technician, service, appointment: { date: date.value, time } })
+    navigate(`/order-status/${order.id}`)
   }
   return <main className="booking-page"><header className="simple-header"><Link to={`/technician/${technician.id}`}>‹</Link><h1>确认预约</h1><span /></header>
     <section className="booking-card provider"><div className={`avatar avatar-${technician.color}`}>{technician.avatar}</div><div><small>本次服务技师</small><h2>{technician.name}</h2><p>{service.name} · {service.duration}</p></div><b>¥{service.price}</b></section>
