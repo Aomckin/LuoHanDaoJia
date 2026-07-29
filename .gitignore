@@ -4,3 +4,5 @@ dist/
 .vite/
 *.log
 .DS_Store
+backend/luohan.db
+backend/__pycache__/
